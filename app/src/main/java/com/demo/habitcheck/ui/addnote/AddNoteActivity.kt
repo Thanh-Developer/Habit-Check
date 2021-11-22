@@ -1,14 +1,18 @@
 package com.demo.habitcheck.ui.addnote
 
+import android.os.Build
 import android.os.Bundle
-import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import com.demo.habitcheck.databinding.ActivityAddNoteBinding
 import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 class AddNoteActivity : DaggerAppCompatActivity() {
-    private val viewModel: AddNoteViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: AddNoteViewModel
     private lateinit var binding: ActivityAddNoteBinding
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()

@@ -35,6 +35,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies {
@@ -56,4 +60,9 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:2.27"
     kapt "com.google.dagger:dagger-compiler:2.33"
     kapt "com.google.dagger:dagger-android-processor:2.27"
+
+    //Room
+    implementation "androidx.room:room-runtime:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
+    implementation("androidx.room:room-ktx:2.3.0")
 }
