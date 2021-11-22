@@ -1,5 +1,6 @@
 package com.demo.habitcheck.di
 
+import com.demo.habitcheck.ui.editnote.EditTaskFragment
 import com.demo.habitcheck.ui.gallery.GalleryFragment
 import com.demo.habitcheck.ui.home.HomeFragment
 import com.demo.habitcheck.ui.slideshow.SlideshowFragment
@@ -17,4 +18,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSlideshowFragment(): SlideshowFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEditTaskFragment(): EditTaskFragment
 }

@@ -1,5 +1,9 @@
 package com.demo.habitcheck.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.demo.habitcheck.data.local.TaskDAO
 import com.demo.habitcheck.data.model.Task
 import javax.inject.Inject
@@ -16,4 +20,8 @@ class TaskRepositoryImp @Inject constructor(
     override suspend fun updateTask(task: Task) = taskDAO.updateTask(task)
 
     override suspend fun getAllTask() = taskDAO.getAllTask()
+    override fun getAllNotePaged(config: PagedList.Config): LiveData<PagedList<Task>> {
+        val factory: DataSource.Factory<Int, Task> = taskDAO.getAllNotePaged()
+        return LivePagedListBuilder(factory, config).build()
+    }
 }

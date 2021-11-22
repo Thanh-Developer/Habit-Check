@@ -9,4 +9,14 @@ object Constants {
 
     const val PAGE_PREFETCH_DISTANCE = 5
 
+    object DayInWeek{
+       const val MONDAY = "Mon"
+       const val TUESDAY = "Tue"
+       const val WEDNESDAY = "Wed"
+       const val THURSDAY = "Thur"
+       const val FRIDAY = "Fri"
+       const val SATURDAY = "Sat"
+       const val SUNDAY = "Sun"
+    }
+
 }

@@ -6,12 +6,13 @@
 
         <variable
             name="viewModel"
-            type="com.demo.habitcheck.ui.addnote.AddNoteViewModel" />
+            type="com.demo.habitcheck.ui.editnote.EditTaskViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -26,11 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <include
-                android:id="@+id/toolBar"
-                layout="@layout/add_note_toolbar"
-                app:viewModel="@{ viewModel }" />
-
             <EditText
                 android:id="@+id/edtTitle"
                 android:layout_width="match_parent"
@@ -39,6 +35,7 @@
                 android:hint="@string/edit_title"
                 android:inputType="textCapSentences|textMultiLine"
                 android:singleLine="false"
+                android:text="@{viewModel.task.title}"
                 android:textSize="@dimen/sp_18" />
 
             <EditText
@@ -51,6 +48,7 @@
                 android:hint="@string/edit_desc"
                 android:inputType="textCapSentences|textMultiLine"
                 android:singleLine="false"
+                android:text="@{viewModel.task.description}"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
@@ -66,15 +64,23 @@
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_16"
                 android:gravity="center"
+                android:text="@{viewModel.task.remindTime}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_32"
                 tools:text="00:00" />
 
-            <include
-                android:id="@+id/listDay"
-                layout="@layout/day_list"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_32"
                 android:background="@color/purple_200"
-                app:viewModel="@{ viewModel }" />
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:paddingVertical="@dimen/dp_8"
+                android:text="Save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

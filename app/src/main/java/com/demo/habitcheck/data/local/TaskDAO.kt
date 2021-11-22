@@ -1,9 +1,8 @@
 package com.demo.habitcheck.data.local
 
+import androidx.paging.DataSource
 import androidx.room.*
 import com.demo.habitcheck.data.model.Task
-import dagger.Module
-import dagger.Provides
 
 @Dao
 interface TaskDAO {
@@ -18,4 +17,7 @@ interface TaskDAO {
 
     @Update
     suspend fun updateTask(task: Task)
+
+    @Query("SELECT * FROM task")
+    fun getAllNotePaged(): DataSource.Factory<Int, Task>
 }

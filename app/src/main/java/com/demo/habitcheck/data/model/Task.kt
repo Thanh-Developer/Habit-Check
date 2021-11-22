@@ -13,5 +13,6 @@ data class Task(
     @ColumnInfo val title: String? = null,
     @ColumnInfo val description: String? = null,
     @ColumnInfo val progress: Int? = 0,
-    @ColumnInfo val remindTime: String? = null
+    @ColumnInfo val remindTime: String? = null,
+    @ColumnInfo val remindDate: String? = null
 ) : Parcelable

@@ -5,15 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.demo.habitcheck.R
 import com.demo.habitcheck.databinding.FragmentHomeBinding
+import com.demo.habitcheck.ui.editnote.EditTaskFragment.Companion.TASK_ARG
 import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
 class HomeFragment : DaggerFragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val homeViewModel: HomeViewModel by viewModels()
+
+    @Inject
+    lateinit var homeViewModel: HomeViewModel
+
+    lateinit var homeAdapter: HomeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,11 +33,25 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun initView() {
+        homeAdapter = HomeAdapter {
+            val bundle = Bundle()
+            bundle.putParcelable(TASK_ARG, it)
+            findNavController().navigate(R.id.nav_edit_task, bundle)
+        }
+        binding.apply {
+            rvTask.apply {
+                adapter = homeAdapter
+            }
+        }
     }
 
     private fun observeField() {
-        homeViewModel.text.observe(viewLifecycleOwner, {
-            binding.textHome.text = it
-        })
+        homeViewModel.apply {
+            getAllNotePaged().observe(viewLifecycleOwner, {
+                if (!it.isNullOrEmpty()) {
+                    homeAdapter.submitList(it)
+                }
+            })
+        }
     }
 }

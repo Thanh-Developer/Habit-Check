@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 object DateUtils {
     val getCurrentDateTime: Date
@@ -22,9 +23,9 @@ object DateUtils {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun convertDate(dateInMilliseconds: String): String {
-        if(dateInMilliseconds.isBlank()) return ""
-        return SimpleDateFormat("dd MMM yyyy HH:mm:ss").format(dateInMilliseconds.toLong())
+    fun convertDate(dateInMilliseconds: String, pattern: String): String {
+        if (dateInMilliseconds.isBlank()) return ""
+        return SimpleDateFormat(pattern).format(dateInMilliseconds.toLong())
     }
 
     fun getDate(milliSeconds: Long, dateFormat: String?): String? {
