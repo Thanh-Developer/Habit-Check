@@ -33,11 +33,13 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun initView() {
-        homeAdapter = HomeAdapter {
+        homeAdapter = HomeAdapter({
             val bundle = Bundle()
             bundle.putParcelable(TASK_ARG, it)
             findNavController().navigate(R.id.nav_edit_task, bundle)
-        }
+        }, {
+            homeViewModel.deleteTask(it)
+        })
         binding.apply {
             rvTask.apply {
                 adapter = homeAdapter

@@ -35,7 +35,7 @@ class AddNoteActivity : DaggerAppCompatActivity(), TimePickerDialog.OnTimeSetLis
         setContentView(binding.root)
         binding.apply {
             txtRemindTime.setOnClickListener {
-                val timePicker: DialogFragment = TimePickerFragment()
+                val timePicker = TimePickerFragment(listener = this@AddNoteActivity)
                 timePicker.show(supportFragmentManager, "time picker")
             }
         }
@@ -67,6 +67,9 @@ class AddNoteActivity : DaggerAppCompatActivity(), TimePickerDialog.OnTimeSetLis
                 }
                 toolBar.btnDone.setOnClickListener {
                     saveTask(edtTitle.text.toString(), edtDesc.text.toString())
+                }
+                toolBar.btnClose.setOnClickListener {
+                    finish()
                 }
             }
         }

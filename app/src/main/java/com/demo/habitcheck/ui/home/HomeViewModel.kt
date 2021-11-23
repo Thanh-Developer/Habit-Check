@@ -32,4 +32,10 @@ class HomeViewModel @Inject constructor(val taskRepository: TaskRepository) : Vi
     val text: LiveData<String> = _text
 
     fun getAllNotePaged() = taskRepository.getAllNotePaged(config)
+
+    fun deleteTask(task: Task) {
+        CoroutineScope(Dispatchers.Main).launch {
+            taskRepository.deleteTask(task)
+        }
+    }
 }
