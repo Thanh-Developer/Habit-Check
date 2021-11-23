@@ -1,10 +1,8 @@
 package com.demo.habitcheck.di
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.demo.habitcheck.ui.gallery.GalleryFragment
+import com.demo.habitcheck.ui.editnote.EditTaskViewModel
 import com.demo.habitcheck.ui.gallery.GalleryViewModel
-import com.demo.habitcheck.ui.home.HomeFragment
 import com.demo.habitcheck.ui.home.HomeViewModel
 import com.demo.habitcheck.ui.slideshow.SlideshowViewModel
 import dagger.Binds
@@ -30,6 +28,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(GalleryViewModel::class)
     abstract fun galleryViewModel(galleryViewModel: GalleryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditTaskViewModel::class)
+    abstract fun editTaskViewModel(editTaskViewModel: EditTaskViewModel): ViewModel
 }
 
 @MustBeDocumented
