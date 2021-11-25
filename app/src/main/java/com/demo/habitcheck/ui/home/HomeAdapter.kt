@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.habitcheck.data.model.Task
 import com.demo.habitcheck.databinding.ItemTaskBinding
+import com.demo.habitcheck.utils.DateUtils.convertDateToDay
+import com.demo.habitcheck.utils.DateUtils.convertDateToHour
+import com.demo.habitcheck.utils.RemindType
 
 class HomeAdapter(private val listener: (Task) -> Unit, val deleteTask: (Task) -> Unit) :
     PagedListAdapter<Task, HomeAdapter.TaskViewHolder>(DiffUtilTask()) {
@@ -26,6 +29,11 @@ class HomeAdapter(private val listener: (Task) -> Unit, val deleteTask: (Task) -
         fun bindItem(task: Task, listener: (Task) -> Unit, deleteTask: (Task) -> Unit) {
             binding.apply {
                 this.task = task
+                if (task.frequency != RemindType.ONE_TIME) {
+                    time.text = convertDateToHour(task.remindInMillis.toString())
+                } else {
+                    time.text = convertDateToDay(task.remindInMillis.toString())
+                }
                 root.setOnClickListener { listener.invoke(task) }
                 btnDelete.setOnClickListener {
                     deleteTask.invoke(task)

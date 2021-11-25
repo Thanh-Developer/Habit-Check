@@ -8,6 +8,7 @@
         <variable
             name="task"
             type="com.demo.habitcheck.data.model.Task" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -56,18 +57,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="@{task.title}"
+                android:text="@{task.description}"
                 android:textSize="@dimen/sp_12"
                 tools:text="Android developer" />
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyleHorizontal"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16"
-                android:max="100"
-                android:progress="@{task.progress}" />
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:layout_weight="1"
+                    android:id="@+id/progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:max="100"
+                    android:progress="@{task.progress}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{task.progress.toString()}"
+                    tools:text="100"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,10 +94,10 @@
                 android:textSize="@dimen/sp_14" />
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
-                android:text="@{task.remindTime}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_14" />
 

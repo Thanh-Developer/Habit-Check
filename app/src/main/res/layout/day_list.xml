@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_32">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtMonday"
@@ -21,6 +20,7 @@
             android:layout_height="@dimen/dp_32"
             android:background="@{viewModel.isMonSelected ? @drawable/bg_selected : @drawable/bg_un_selected}"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onMondaySelected()}"
             android:text="M"
             android:textColor="@{!viewModel.isMonSelected ? @color/black : @color/white}"
             app:layout_constraintEnd_toStartOf="@+id/txtTuesday"
@@ -34,6 +34,7 @@
             android:layout_height="@dimen/dp_32"
             android:background="@{viewModel.isTueSelected ? @drawable/bg_selected : @drawable/bg_un_selected}"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onTuesdaySelected()}"
             android:text="T"
             android:textColor="@{!viewModel.isTueSelected ? @color/black : @color/white}"
             app:layout_constraintEnd_toStartOf="@+id/txtWednesday"
@@ -47,6 +48,7 @@
             android:layout_height="@dimen/dp_32"
             android:background="@{viewModel.isWendSelected ? @drawable/bg_selected : @drawable/bg_un_selected}"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onWednesdaySelected()}"
             android:text="W"
             android:textColor="@{!viewModel.isWendSelected ? @color/black : @color/white}"
             app:layout_constraintEnd_toStartOf="@+id/txtThursday"
@@ -60,6 +62,7 @@
             android:layout_height="@dimen/dp_32"
             android:background="@{viewModel.isThursSelected ? @drawable/bg_selected : @drawable/bg_un_selected}"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onThursSelected()}"
             android:text="T"
             android:textColor="@{!viewModel.isThursSelected ? @color/black : @color/white}"
             app:layout_constraintEnd_toStartOf="@+id/txtFriday"
@@ -73,6 +76,7 @@
             android:layout_height="@dimen/dp_32"
             android:background="@{viewModel.isFriSelected ? @drawable/bg_selected : @drawable/bg_un_selected}"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onFridaySelected()}"
             android:text="F"
             android:textColor="@{!viewModel.isFriSelected? @color/black : @color/white}"
             app:layout_constraintEnd_toStartOf="@+id/txtSaturday"
@@ -86,6 +90,7 @@
             android:layout_height="@dimen/dp_32"
             android:background="@{viewModel.isSatSelected ? @drawable/bg_selected : @drawable/bg_un_selected}"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onSaturdaySelected()}"
             android:text="S"
             android:textColor="@{!viewModel.isSatSelected ? @color/black : @color/white}"
             app:layout_constraintEnd_toStartOf="@+id/txtSunday"
@@ -99,6 +104,7 @@
             android:layout_height="@dimen/dp_32"
             android:background="@{viewModel.isSunSelected ? @drawable/bg_selected : @drawable/bg_un_selected}"
             android:gravity="center"
+            android:onClick="@{() -> viewModel.onSundaySelected()}"
             android:text="S"
             android:textColor="@{!viewModel.isSunSelected ? @color/black : @color/white}"
             app:layout_constraintEnd_toEndOf="parent"

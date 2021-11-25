@@ -4,6 +4,8 @@
     package="com.demo.habitcheck">
 
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"

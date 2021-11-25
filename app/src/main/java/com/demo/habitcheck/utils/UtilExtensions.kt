@@ -9,6 +9,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
+import com.demo.habitcheck.R
 import com.google.android.material.snackbar.Snackbar
 
 object UtilExtensions {
@@ -26,13 +29,23 @@ object UtilExtensions {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    fun mySnackbar(view: View, message: String){
+    fun mySnackbar(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
     }
 
     fun EditText.setTextEditable(text: String) {
         this.text = Editable.Factory.getInstance().newEditable(text)
+    }
+
+    fun updateDayUI(context: Context, textView: AppCompatTextView, isSelected: Boolean) {
+        if (isSelected) {
+            textView.background = ContextCompat.getDrawable(context, R.drawable.bg_selected)
+            textView.setTextColor(context.resources.getColor(R.color.white, null))
+        } else {
+            textView.background = ContextCompat.getDrawable(context, R.drawable.bg_un_selected)
+            textView.setTextColor(context.resources.getColor(R.color.black, null))
+        }
     }
 
     fun hideKeyboard(activity: Activity) {
