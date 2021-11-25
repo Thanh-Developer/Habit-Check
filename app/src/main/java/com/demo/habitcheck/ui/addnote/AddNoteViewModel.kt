@@ -1,11 +1,12 @@
 package com.demo.habitcheck.ui.addnote
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.demo.habitcheck.data.model.Task
 import com.demo.habitcheck.data.repository.TaskRepository
 import com.demo.habitcheck.utils.Constants
+import com.demo.habitcheck.utils.DateUtils.convertDateToDay
+import com.demo.habitcheck.utils.RemindType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,22 +22,49 @@ class AddNoteViewModel @Inject constructor(private val taskRepository: TaskRepos
     val isFriSelected = MutableLiveData(false)
     val isSatSelected = MutableLiveData(false)
     val isSunSelected = MutableLiveData(false)
-    val remindTime = MutableLiveData("00:00")
     val isSaveTaskResult = MutableLiveData<Boolean>()
+    val isEveryday = MutableLiveData(false)
+    val isOneTime = MutableLiveData(true)
+    val isSomeDay = MutableLiveData(false)
+    val isClose = MutableLiveData(false)
+    val isDone = MutableLiveData(false)
+    var title = MutableLiveData<String>().apply { value = "" }
+    var des = MutableLiveData<String>().apply { value = "" }
+    var obsFrequency: RemindType = RemindType.ONE_TIME
 
-    fun saveTask(title: String?, des: String?) {
-        if (title.isNullOrEmpty() || des.isNullOrEmpty()) {
+    var remindInMillis = 0L
+
+    fun onDone() {
+        isDone.value = true
+    }
+
+    fun saveTask() {
+        if (title.value.isNullOrEmpty() || des.value.isNullOrEmpty()) {
             isSaveTaskResult.value = false
             return
         }
+        if (isOneTime.value == true) {
+            obsFrequency = RemindType.ONE_TIME
+        }
+
+        if (isEveryday.value == true) {
+            obsFrequency = RemindType.EVERY_DAY
+        }
+
+        if (isSomeDay.value == true) {
+            obsFrequency = RemindType.SOME_DAY
+        }
+
         CoroutineScope(Dispatchers.Main).launch {
             taskRepository.insertTask(
                 Task(
-                    title = title,
-                    description = des,
+                    title = title.value,
+                    description = des.value,
                     progress = 0,
+                    frequency = obsFrequency,
                     remindDate = getRemindDay(),
-                    remindTime = remindTime.value
+                    remindInMillis = this@AddNoteViewModel.remindInMillis,
+                    remindTime = convertDateToDay(remindInMillis.toString())
                 )
             )
             isSaveTaskResult.value = true
@@ -109,5 +137,9 @@ class AddNoteViewModel @Inject constructor(private val taskRepository: TaskRepos
         isSunSelected.value = isSunSelected.value?.let {
             !it
         } ?: run { false }
+    }
+
+    fun onClose() {
+        isClose.value = true
     }
 }

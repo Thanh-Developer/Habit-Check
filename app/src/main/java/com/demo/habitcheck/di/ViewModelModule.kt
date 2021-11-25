@@ -2,7 +2,7 @@ package com.demo.habitcheck.di
 
 import androidx.lifecycle.ViewModel
 import com.demo.habitcheck.ui.editnote.EditTaskViewModel
-import com.demo.habitcheck.ui.gallery.GalleryViewModel
+import com.demo.habitcheck.ui.notedone.NoteDoneViewModel
 import com.demo.habitcheck.ui.home.HomeViewModel
 import com.demo.habitcheck.ui.slideshow.SlideshowViewModel
 import dagger.Binds
@@ -26,8 +26,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(GalleryViewModel::class)
-    abstract fun galleryViewModel(galleryViewModel: GalleryViewModel): ViewModel
+    @ViewModelKey(NoteDoneViewModel::class)
+    abstract fun galleryViewModel(noteDoneViewModel: NoteDoneViewModel): ViewModel
 
     @Binds
     @IntoMap

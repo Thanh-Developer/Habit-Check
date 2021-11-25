@@ -16,9 +16,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.demo.habitcheck.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:id="@+id/nav_done"
+        android:name="com.demo.habitcheck.ui.notedone.NoteDoneFragment"
+        android:label="@string/menu_done"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
