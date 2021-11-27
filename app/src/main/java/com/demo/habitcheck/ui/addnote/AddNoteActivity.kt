@@ -11,6 +11,8 @@ import com.demo.habitcheck.utils.UtilExtensions.updateDayUI
 import dagger.android.support.DaggerAppCompatActivity
 import java.util.*
 import android.util.Log
+import com.demo.habitcheck.data.model.Task
+import com.demo.habitcheck.utils.Coroutines
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -111,6 +113,12 @@ class AddNoteActivity : DaggerAppCompatActivity() {
                     finish()
                 }
             })
+
+            getAllTaskPaged().observe(this@AddNoteActivity, { tasks ->
+                if (!tasks.isNullOrEmpty()) {
+                    taskId += tasks.size
+                }
+            })
         }
     }
 
@@ -130,8 +138,10 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         viewModel.remindInMillis = customTime
 
-        val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
+        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId).build()
         val delay = customTime - currentTime
+        Log.d("--->", "put id: ${viewModel.taskId}")
+        Log.d("--->", "remindInMillis: + ${viewModel.remindInMillis}")
 
         // Setup worker
         val notificationWork = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
@@ -160,7 +170,7 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         viewModel.remindInMillis = customTime
 
-        val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
+        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId).build()
         val delay = customTime - currentTime
 
         // Setup Worker
@@ -175,4 +185,5 @@ class AddNoteActivity : DaggerAppCompatActivity() {
             ExistingPeriodicWorkPolicy.KEEP, request
         )
     }
+
 }

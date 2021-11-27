@@ -99,11 +99,11 @@
                     android:checked="@={viewModel.isOneTime}"
                     android:text="One time" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{viewModel.isEveryday}"
-                    android:text="Every day" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isEveryday}"
+                        android:text="Every day" />
 
                 <RadioButton
                     android:layout_width="wrap_content"

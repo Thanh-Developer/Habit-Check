@@ -3,6 +3,7 @@ package com.demo.habitcheck.service
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
+import android.app.PendingIntent
 import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
@@ -29,7 +30,7 @@ import com.demo.habitcheck.R
 class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
-        val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
+        val id = inputData.getInt(NOTIFICATION_ID, 0)
         sendNotification(id)
 
         return success()
@@ -39,8 +40,7 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra(NOTIFICATION_ID, id)
-        val pendingIntent = getActivity(applicationContext, 0, intent, 0)
-
+        val pendingIntent = getActivity(applicationContext, 0, intent,  PendingIntent.FLAG_UPDATE_CURRENT)
         val notificationManager =
             applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
@@ -72,7 +72,7 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
             notificationManager.createNotificationChannel(channel)
         }
 
-        notificationManager.notify(id, notification.build())
+        notificationManager.notify(0, notification.build())
     }
 
     companion object {
