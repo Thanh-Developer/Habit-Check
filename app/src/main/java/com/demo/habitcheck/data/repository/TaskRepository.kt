@@ -10,4 +10,5 @@ interface TaskRepository {
     suspend fun updateTask(task: Task)
     suspend fun getAllTask(): List<Task>
     fun getAllNotePaged(config: PagedList.Config): LiveData<PagedList<Task>>
+    suspend fun getTaskById(id: Int): Task
 }

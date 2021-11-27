@@ -24,4 +24,6 @@ class TaskRepositoryImp @Inject constructor(
         val factory: DataSource.Factory<Int, Task> = taskDAO.getAllNotePaged()
         return LivePagedListBuilder(factory, config).build()
     }
+
+    override suspend fun getTaskById(id: Int) = taskDAO.getTaskById(id)
 }

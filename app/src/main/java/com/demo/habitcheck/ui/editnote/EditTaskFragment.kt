@@ -1,6 +1,7 @@
 package com.demo.habitcheck.ui.editnote
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -118,7 +119,9 @@ class EditTaskFragment : DaggerFragment() {
 
             isSave.observe(viewLifecycleOwner, {
                 if (it == true) {
-                    setupRemind()
+                    //handle later
+                    //setupRemind()
+
                     saveTask(binding.edtTitle.text.toString(), binding.edtDesc.text.toString())
                 }
             })
@@ -135,16 +138,21 @@ class EditTaskFragment : DaggerFragment() {
     }
 
     private fun setUpTimeDatePicker() {
+        Log.d("--->", "remindInMillis: + ${editTaskViewModel.task.value?.remindInMillis}")
         val calendar = Calendar.getInstance()
         editTaskViewModel.task.value?.remindInMillis?.let {
             calendar.timeInMillis = it
         }
+
+        // Set old time
+        editTaskViewModel.remindInMillis = calendar.timeInMillis
 
 
         binding.timePicker.apply {
             currentHour = calendar.get(Calendar.HOUR_OF_DAY)
             currentMinute = calendar.get(Calendar.MINUTE)
         }
+
 
         binding.datePicker.apply {
             init(

@@ -20,4 +20,7 @@ interface TaskDAO {
 
     @Query("SELECT * FROM task")
     fun getAllNotePaged(): DataSource.Factory<Int, Task>
+
+    @Query("SELECT * FROM task WHERE id = :id")
+    suspend fun getTaskById(id: Int): Task
 }
