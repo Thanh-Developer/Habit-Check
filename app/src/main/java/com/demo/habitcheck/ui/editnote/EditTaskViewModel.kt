@@ -34,6 +34,7 @@ class EditTaskViewModel @Inject constructor(val taskRepository: TaskRepository) 
     val isOneTime = MutableLiveData(false)
     val isSomeDay = MutableLiveData(false)
     val isSave = MutableLiveData(false)
+    val isEditTime = MutableLiveData(false)
     var obsFrequency: RemindType = RemindType.ONE_TIME
     var remindInMillis = 0L
 

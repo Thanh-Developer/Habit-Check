@@ -1,6 +1,7 @@
 package com.demo.habitcheck.ui.addnote
 
 import android.os.Bundle
+import android.util.Log
 import androidx.work.*
 import com.demo.habitcheck.databinding.ActivityAddNoteBinding
 import com.demo.habitcheck.service.NotifyWorker
@@ -10,9 +11,6 @@ import com.demo.habitcheck.utils.UtilExtensions.myToast
 import com.demo.habitcheck.utils.UtilExtensions.updateDayUI
 import dagger.android.support.DaggerAppCompatActivity
 import java.util.*
-import android.util.Log
-import com.demo.habitcheck.data.model.Task
-import com.demo.habitcheck.utils.Coroutines
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -72,7 +70,7 @@ class AddNoteActivity : DaggerAppCompatActivity() {
                         setupRemindEveryDay()
                     }
                     if (isSomeDay.value == true) {
-
+                        setupRemindSomeDay()
                     }
                     saveTask()
                 }
@@ -175,7 +173,7 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         // Setup Worker
         val request =
-            PeriodicWorkRequest.Builder(NotifyWorker::class.java, 15, TimeUnit.MINUTES)
+            PeriodicWorkRequest.Builder(NotifyWorker::class.java, 24, TimeUnit.HOURS)
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
                 .setInputData(data).build()
 
@@ -186,4 +184,88 @@ class AddNoteActivity : DaggerAppCompatActivity() {
         )
     }
 
+    private fun setupRemindSomeDay() {
+        Log.d("--->", "setupRemindSomeDay")
+        val customCalendar = Calendar.getInstance()
+        customCalendar.set(
+            binding.date.year,
+            binding.date.month,
+            binding.date.dayOfMonth,
+            binding.time.hour,
+            binding.time.minute,
+            0
+        )
+        val customTime = customCalendar.timeInMillis
+        val currentTime = System.currentTimeMillis()
+        Log.d("--->", "setUpRemindByDay currentTime: $currentTime")
+        Log.d("--->", "setUpRemindByDay customTime: $customTime")
+
+        viewModel.remindInMillis = customTime
+        val delay = customTime - currentTime
+
+        if (viewModel.isSunSelected.value == true) {
+            Log.d("--->", "setupRemind in sunday")
+            setUpRemindByDay(Calendar.SUNDAY, delay)
+        }
+        if (viewModel.isMonSelected.value == true) {
+            Log.d("--->", "setupRemind in monday")
+            setUpRemindByDay(Calendar.MONDAY, delay)
+        }
+
+        if (viewModel.isTueSelected.value == true) {
+            Log.d("--->", "setupRemind in tuesday")
+            setUpRemindByDay(Calendar.TUESDAY, delay)
+        }
+
+        if (viewModel.isWendSelected.value == true) {
+            Log.d("--->", "setupRemind in wednesday")
+            setUpRemindByDay(Calendar.WEDNESDAY, delay)
+        }
+
+        if (viewModel.isThursSelected.value == true) {
+            Log.d("--->", "setupRemind in thursday")
+            setUpRemindByDay(Calendar.THURSDAY, delay)
+        }
+
+        if (viewModel.isFriSelected.value == true) {
+            Log.d("--->", "setupRemind in friday")
+            setUpRemindByDay(Calendar.FRIDAY, delay)
+        }
+
+        if (viewModel.isSatSelected.value == true) {
+            Log.d("--->", "setupRemind in saturday")
+            setUpRemindByDay(Calendar.SATURDAY, delay)
+        }
+    }
+
+    private fun setUpRemindByDay(day: Int, delay: Long) {
+        val c = Calendar.getInstance()
+        val dayOfWeek = c[Calendar.DAY_OF_WEEK]
+        var dayGap = 0
+
+        if (dayOfWeek < day) {
+            dayGap = day - dayOfWeek
+        }
+
+        if (dayOfWeek > day) {
+            dayGap = 7 + day - dayOfWeek
+        }
+
+        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId).build()
+        val totalDelay = delay + dayGap * 24 * 60 * 60 * 1000
+
+        Log.d("--->", "setUpRemindByDay delay: $totalDelay")
+
+        // Setup Worker
+        val request =
+            PeriodicWorkRequest.Builder(NotifyWorker::class.java, 24 * 7, TimeUnit.HOURS)
+                .setInitialDelay(totalDelay, TimeUnit.MILLISECONDS)
+                .setInputData(data).build()
+
+        val instanceWorkManager = WorkManager.getInstance(this)
+        instanceWorkManager.enqueueUniquePeriodicWork(
+            NOTIFICATION_WORK,
+            ExistingPeriodicWorkPolicy.KEEP, request
+        )
+    }
 }
