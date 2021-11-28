@@ -31,23 +31,28 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
 
     override fun doWork(): Result {
         val id = inputData.getInt(NOTIFICATION_ID, 0)
-        sendNotification(id)
+        val title = inputData.getString(NOTIFICATION_TITTLE)
+        val des = inputData.getString(NOTIFICATION_DES)
+        if (title != null && des != null) {
+            sendNotification(id, title, des)
+        }
 
         return success()
     }
 
-    private fun sendNotification(id: Int) {
+    private fun sendNotification(id: Int, title: String, des: String) {
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra(NOTIFICATION_ID, id)
-        val pendingIntent = getActivity(applicationContext, 0, intent,  PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent =
+            getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notificationManager =
             applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL)
             .setSmallIcon(R.drawable.ic_launcher_background)
-            .setContentTitle("title")
-            .setContentText("Update habit")
+            .setContentTitle(title)
+            .setContentText(des)
             .setPriority(PRIORITY_MAX)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -77,6 +82,8 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
 
     companion object {
         const val NOTIFICATION_ID = "appName_notification_id"
+        const val NOTIFICATION_TITTLE = "notification_title"
+        const val NOTIFICATION_DES = "notification_des"
         const val NOTIFICATION_NAME = "appName"
         const val NOTIFICATION_CHANNEL = "appName_channel_01"
         const val NOTIFICATION_WORK = "appName_notification_work"

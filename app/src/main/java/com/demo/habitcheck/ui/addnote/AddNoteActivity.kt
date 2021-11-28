@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.work.*
 import com.demo.habitcheck.databinding.ActivityAddNoteBinding
 import com.demo.habitcheck.service.NotifyWorker
+import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_DES
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_ID
+import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_TITTLE
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_WORK
 import com.demo.habitcheck.utils.UtilExtensions.myToast
 import com.demo.habitcheck.utils.UtilExtensions.updateDayUI
@@ -136,7 +138,10 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         viewModel.remindInMillis = customTime
 
-        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId).build()
+        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId)
+            .putString(NOTIFICATION_TITTLE, viewModel.title.value)
+            .putString(NOTIFICATION_DES, viewModel.des.value)
+            .build()
         val delay = customTime - currentTime
         Log.d("--->", "put id: ${viewModel.taskId}")
         Log.d("--->", "remindInMillis: + ${viewModel.remindInMillis}")
@@ -168,7 +173,10 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         viewModel.remindInMillis = customTime
 
-        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId).build()
+        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId)
+            .putString(NOTIFICATION_TITTLE, viewModel.title.value)
+            .putString(NOTIFICATION_DES, viewModel.des.value)
+            .build()
         val delay = customTime - currentTime
 
         // Setup Worker
@@ -251,7 +259,10 @@ class AddNoteActivity : DaggerAppCompatActivity() {
             dayGap = 7 + day - dayOfWeek
         }
 
-        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId).build()
+        val data = Data.Builder().putInt(NOTIFICATION_ID, viewModel.taskId)
+            .putString(NOTIFICATION_TITTLE, viewModel.title.value)
+            .putString(NOTIFICATION_DES, viewModel.des.value)
+            .build()
         val totalDelay = delay + dayGap * 24 * 60 * 60 * 1000
 
         Log.d("--->", "setUpRemindByDay delay: $totalDelay")
