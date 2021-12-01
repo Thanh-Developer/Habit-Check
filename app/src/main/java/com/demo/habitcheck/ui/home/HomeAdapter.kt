@@ -3,6 +3,7 @@ package com.demo.habitcheck.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.habitcheck.data.model.Task
@@ -12,7 +13,7 @@ import com.demo.habitcheck.utils.DateUtils.convertDateToHour
 import com.demo.habitcheck.utils.RemindType
 
 class HomeAdapter(private val listener: (Task) -> Unit, val deleteTask: (Task) -> Unit) :
-    PagedListAdapter<Task, HomeAdapter.TaskViewHolder>(DiffUtilTask()) {
+    PagingDataAdapter<Task, HomeAdapter.TaskViewHolder>(DiffUtilTask()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)

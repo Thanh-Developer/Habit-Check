@@ -3,12 +3,14 @@ package com.demo.habitcheck.ui.addnote
 import android.os.Bundle
 import android.util.Log
 import androidx.work.*
+import com.demo.habitcheck.data.model.Task
 import com.demo.habitcheck.databinding.ActivityAddNoteBinding
 import com.demo.habitcheck.service.NotifyWorker
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_DES
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_ID
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_TITTLE
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_WORK
+import com.demo.habitcheck.utils.Coroutines
 import com.demo.habitcheck.utils.UtilExtensions.myToast
 import com.demo.habitcheck.utils.UtilExtensions.updateDayUI
 import dagger.android.support.DaggerAppCompatActivity
@@ -114,11 +116,10 @@ class AddNoteActivity : DaggerAppCompatActivity() {
                 }
             })
 
-            getAllTaskPaged().observe(this@AddNoteActivity, { tasks ->
-                if (!tasks.isNullOrEmpty()) {
-                    taskId += tasks.size
-                }
-            })
+            Coroutines.main {
+                val tasks: List<Task> = getAllTask()
+                taskId += tasks.size
+            }
         }
     }
 
