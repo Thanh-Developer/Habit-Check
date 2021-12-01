@@ -9,7 +9,9 @@ import androidx.navigation.fragment.findNavController
 import com.demo.habitcheck.R
 import com.demo.habitcheck.databinding.FragmentHomeBinding
 import com.demo.habitcheck.ui.editnote.EditTaskFragment.Companion.TASK_ARG
+import com.demo.habitcheck.utils.Coroutines
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 class HomeFragment : DaggerFragment() {
@@ -49,11 +51,11 @@ class HomeFragment : DaggerFragment() {
 
     private fun observeField() {
         homeViewModel.apply {
-            getAllNotePaged().observe(viewLifecycleOwner, {
-                if (!it.isNullOrEmpty()) {
-                    homeAdapter.submitList(it)
+            Coroutines.main {
+                getAllNotePaged().collectLatest { pagingData ->
+                    homeAdapter.submitData(pagingData)
                 }
-            })
+            }
         }
     }
 }

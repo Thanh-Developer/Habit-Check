@@ -2,7 +2,6 @@ package com.demo.habitcheck.ui.addnote
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
 import com.demo.habitcheck.data.model.Task
 import com.demo.habitcheck.data.repository.TaskRepository
 import com.demo.habitcheck.utils.Constants
@@ -15,18 +14,8 @@ import javax.inject.Inject
 
 class AddNoteViewModel @Inject constructor(private val taskRepository: TaskRepository) :
     ViewModel() {
-    private val config = PagedList.Config.Builder()
-        // Number of items loaded for a page in one go from DataSource
-        .setPageSize(Constants.PAGE_SIZE)
-        // The number of items in the first load, if not set, it defaults = 3 * pageSize
-        .setInitialLoadSizeHint(Constants.PAGE_INITIAL_LOAD_SIZE_HINT)
-        // Determine the distance (number of items) from the loaded content to load the data, if not set, it defaults to pageSize.
-        .setPrefetchDistance(Constants.PAGE_PREFETCH_DISTANCE)
-        // PagedList will display null placeholders for items that have not been loaded content, by default it will be true.
-        .setEnablePlaceholders(true)
-        .build()
 
-    fun getAllTaskPaged() = taskRepository.getAllNotePaged(config)
+    suspend fun getAllTask() = taskRepository.getAllTask()
 
     val isMonSelected = MutableLiveData(false)
     val isTueSelected = MutableLiveData(false)
