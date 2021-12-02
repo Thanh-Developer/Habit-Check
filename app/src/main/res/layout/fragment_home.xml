@@ -4,25 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/grey">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show only task not done"
-            android:layout_marginEnd="@dimen/dp_8"
-            app:layout_constraintEnd_toStartOf="@id/cbFilter"
-            app:layout_constraintTop_toTopOf="@id/cbFilter"
-            app:layout_constraintBottom_toBottomOf="@id/cbFilter"/>
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cbFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTask"
@@ -32,7 +17,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cbFilter" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

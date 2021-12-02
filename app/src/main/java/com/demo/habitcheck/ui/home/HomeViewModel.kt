@@ -3,7 +3,6 @@ package com.demo.habitcheck.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
 import androidx.paging.PagingConfig
 import com.demo.habitcheck.data.model.Task
 import com.demo.habitcheck.data.repository.TaskRepository
@@ -15,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(val taskRepository: TaskRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val taskRepository: TaskRepository) : ViewModel() {
     private val config = PagingConfig(
         // Number of items loaded for a page in one go from DataSource
         pageSize = PAGE_SIZE,

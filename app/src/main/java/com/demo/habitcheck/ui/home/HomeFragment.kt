@@ -50,21 +50,6 @@ class HomeFragment : DaggerFragment() {
                 adapter = homeAdapter
             }
         }
-        binding.cbFilter.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                Coroutines.main {
-                    homeViewModel.getAllNoteNotDonePaged().collectLatest { pagingData ->
-                        homeAdapter.submitData(pagingData)
-                    }
-                }
-            } else {
-                Coroutines.main {
-                    homeViewModel.getAllNotePaged().collectLatest { pagingData ->
-                        homeAdapter.submitData(pagingData)
-                    }
-                }
-            }
-        }
     }
 
     private fun observeField() {
@@ -73,6 +58,22 @@ class HomeFragment : DaggerFragment() {
                 getAllNotePaged().collectLatest { pagingData ->
                     homeAdapter.submitData(pagingData)
                 }
+            }
+        }
+    }
+
+    fun getAllTask() {
+        Coroutines.main {
+            homeViewModel.getAllNotePaged().collectLatest { pagingData ->
+                homeAdapter.submitData(pagingData)
+            }
+        }
+    }
+
+    fun getAllTaskNotDone() {
+        Coroutines.main {
+            homeViewModel.getAllNoteNotDonePaged().collectLatest { pagingData ->
+                homeAdapter.submitData(pagingData)
             }
         }
     }

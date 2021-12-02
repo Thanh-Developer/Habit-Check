@@ -2,27 +2,27 @@ package com.demo.habitcheck
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.demo.habitcheck.data.model.Task
-import com.demo.habitcheck.databinding.ActivityAddNoteBinding
 import com.demo.habitcheck.service.NotifyWorker
 import com.demo.habitcheck.ui.addnote.AddNoteActivity
-import com.demo.habitcheck.ui.addnote.AddNoteViewModel
 import com.demo.habitcheck.ui.editnote.EditTaskFragment
+import com.demo.habitcheck.ui.home.HomeFragment
 import com.demo.habitcheck.utils.UtilExtensions.openActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
+
 
 class MainActivity : DaggerAppCompatActivity() {
 
@@ -91,6 +91,44 @@ class MainActivity : DaggerAppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_task ->
+                showTask()
+            R.id.action_task_not_done ->
+                showTaskNotDone()
+            R.id.action_clear_task ->
+                clearNote()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showTask() {
+        val fragmentID = findNavController(R.id.nav_host_fragment).currentDestination?.id
+        if (fragmentID == R.id.nav_home) {
+            val navHostFragment: Fragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            val fragment: HomeFragment =
+                navHostFragment?.childFragmentManager?.fragments?.get(0) as HomeFragment
+            fragment.getAllTask()
+        }
+    }
+
+    private fun showTaskNotDone() {
+        val fragmentID = findNavController(R.id.nav_host_fragment).currentDestination?.id
+        if (fragmentID == R.id.nav_home) {
+            val navHostFragment: Fragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            val fragment: HomeFragment =
+                navHostFragment?.childFragmentManager?.fragments?.get(0) as HomeFragment
+            fragment.getAllTaskNotDone()
+        }
+    }
+
+    private fun clearNote() {
+        TODO("Not yet implemented")
     }
 
     override fun onSupportNavigateUp(): Boolean {
