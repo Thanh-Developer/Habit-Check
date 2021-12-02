@@ -5,6 +5,6 @@ import androidx.room.RoomDatabase
 import com.demo.habitcheck.data.model.Task
 
 @Database(entities = [Task::class], version = 1, exportSchema = false)
-abstract class AppDatabase : RoomDatabase() {
+abstract class TaskDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDAO
 }

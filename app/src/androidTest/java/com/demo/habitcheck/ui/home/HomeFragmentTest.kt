@@ -1,4 +1,4 @@
-package com.demo.habitcheck.ui
+package com.demo.habitcheck.ui.home
 
 import android.view.Gravity
 import androidx.test.espresso.Espresso.onView
@@ -24,7 +24,7 @@ class HomeFragmentTest {
 
     private val positionTest = 0
 
-    private val notes =  arrayOf(
+    private val notes = arrayOf(
         Task(
             null,
             "Title test",
@@ -40,7 +40,7 @@ class HomeFragmentTest {
     }
 
     @Test
-    fun clickButton_openAddTaskActivity(){
+    fun clickButton_openAddTaskActivity() {
         onView(withId(R.id.fab)).perform(ViewActions.click())
 
         onView(withId(R.id.edtDesc)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))

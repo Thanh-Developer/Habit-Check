@@ -41,4 +41,6 @@ class HomeViewModel @Inject constructor(private val taskRepository: TaskReposito
             taskRepository.deleteTask(task)
         }
     }
+
+    suspend fun getAllTask() = taskRepository.getAllTask()
 }
