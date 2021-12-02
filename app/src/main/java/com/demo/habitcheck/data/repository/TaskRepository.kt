@@ -11,5 +11,6 @@ interface TaskRepository {
     suspend fun updateTask(task: Task)
     suspend fun getAllTask(): List<Task>
     fun getAllNotePaged(config: PagingConfig): Flow<PagingData<Task>>
+    fun getAllNoteNotDonePaged(config: PagingConfig): Flow<PagingData<Task>>
     suspend fun getTaskById(id: Int): Task
 }

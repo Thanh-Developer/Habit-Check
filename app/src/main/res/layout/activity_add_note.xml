@@ -69,18 +69,21 @@
                 android:layout_height="wrap_content">
 
                 <RadioButton
+                    android:id="@+id/rbOneTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.isOneTime}"
                     android:text="One time" />
 
                 <RadioButton
+                    android:id="@+id/rbEveryDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.isEveryday}"
                     android:text="Every day" />
 
                 <RadioButton
+                    android:id="@+id/rbSomeDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.isSomeDay}"

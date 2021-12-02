@@ -25,5 +25,9 @@ class TaskRepositoryImp @Inject constructor(
         return Pager(config = config) { taskDAO.getAllNotePaged() }.flow
     }
 
+    override fun getAllNoteNotDonePaged(config: PagingConfig): Flow<PagingData<Task>> {
+        return Pager(config = config) { taskDAO.getAllNotePagedNotDone() }.flow
+    }
+
     override suspend fun getTaskById(id: Int) = taskDAO.getTaskById(id)
 }

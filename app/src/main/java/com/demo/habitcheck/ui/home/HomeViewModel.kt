@@ -35,6 +35,8 @@ class HomeViewModel @Inject constructor(val taskRepository: TaskRepository) : Vi
 
     fun getAllNotePaged() = taskRepository.getAllNotePaged(config)
 
+    fun getAllNoteNotDonePaged() = taskRepository.getAllNoteNotDonePaged(config)
+
     fun deleteTask(task: Task) {
         CoroutineScope(Dispatchers.Main).launch {
             taskRepository.deleteTask(task)
