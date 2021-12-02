@@ -1,4 +1,4 @@
-package com.demo.habitcheck.ui
+package com.demo.habitcheck.ui.addnote
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
@@ -7,7 +7,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.demo.habitcheck.R
-import com.demo.habitcheck.ui.addnote.AddNoteActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

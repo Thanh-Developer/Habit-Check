@@ -6,7 +6,7 @@ import com.demo.habitcheck.data.model.Task
 
 @Dao
 interface TaskDAO {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: Task)
 
     @Delete

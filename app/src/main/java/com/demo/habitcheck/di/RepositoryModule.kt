@@ -2,8 +2,8 @@ package com.demo.habitcheck.di
 
 import android.app.Application
 import androidx.room.Room
-import com.demo.habitcheck.data.local.AppDatabase
 import com.demo.habitcheck.data.local.TaskDAO
+import com.demo.habitcheck.data.local.TaskDatabase
 import com.demo.habitcheck.data.repository.TaskRepository
 import com.demo.habitcheck.data.repository.TaskRepositoryImp
 import dagger.Module
@@ -14,12 +14,12 @@ import javax.inject.Singleton
 class RepositoryModule {
     @Provides
     @Singleton
-    fun provideDatabase(application: Application): AppDatabase =
-        Room.databaseBuilder(application, AppDatabase::class.java, "database.db").build()
+    fun provideDatabase(application: Application): TaskDatabase =
+        Room.databaseBuilder(application, TaskDatabase::class.java, "database.db").build()
 
     @Provides
     @Singleton
-    fun provideTaskDao(database: AppDatabase): TaskDAO = database.taskDao()
+    fun provideTaskDao(database: TaskDatabase): TaskDAO = database.taskDao()
 
     @Singleton
     @Provides
