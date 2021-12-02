@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import androidx.work.WorkManager
 import com.demo.habitcheck.R
 import com.demo.habitcheck.databinding.FragmentHomeBinding
 import com.demo.habitcheck.ui.editnote.EditTaskFragment.Companion.TASK_ARG
@@ -40,11 +41,28 @@ class HomeFragment : DaggerFragment() {
             bundle.putParcelable(TASK_ARG, it)
             findNavController().navigate(R.id.nav_edit_task, bundle)
         }, {
+            WorkManager.getInstance(requireContext())
+                .cancelUniqueWork(it.workerId ?: return@HomeAdapter)
             homeViewModel.deleteTask(it)
         })
         binding.apply {
             rvTask.apply {
                 adapter = homeAdapter
+            }
+        }
+        binding.cbFilter.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                Coroutines.main {
+                    homeViewModel.getAllNoteNotDonePaged().collectLatest { pagingData ->
+                        homeAdapter.submitData(pagingData)
+                    }
+                }
+            } else {
+                Coroutines.main {
+                    homeViewModel.getAllNotePaged().collectLatest { pagingData ->
+                        homeAdapter.submitData(pagingData)
+                    }
+                }
             }
         }
     }

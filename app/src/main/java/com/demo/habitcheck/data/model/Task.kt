@@ -17,5 +17,6 @@ data class Task(
     @ColumnInfo val frequency: RemindType = RemindType.ONE_TIME,
     @ColumnInfo val remindInMillis: Long? = 0L,
     @ColumnInfo val remindTime: String? = null,
-    @ColumnInfo val remindDate: String? = null
+    @ColumnInfo val remindDate: String? = null,
+    @ColumnInfo val workerId: String? = null
 ) : Parcelable

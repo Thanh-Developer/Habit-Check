@@ -30,18 +30,19 @@ class AddNoteViewModel @Inject constructor(private val taskRepository: TaskRepos
     val isSomeDay = MutableLiveData(false)
     val isClose = MutableLiveData(false)
     val isDone = MutableLiveData(false)
-    var title = MutableLiveData<String>().apply { value = "" }
-    var des = MutableLiveData<String>().apply { value = "" }
+    var title = MutableLiveData<String>().apply { value = "Test" }
+    var des = MutableLiveData<String>().apply { value = "Test" }
     var obsFrequency: RemindType = RemindType.ONE_TIME
 
     var remindInMillis = 0L
     var taskId = 1
+    var workName: String = ""
 
     fun onDone() {
         isDone.value = true
     }
 
-    fun saveTask() {
+    fun saveTask(workName: String) {
         if (title.value.isNullOrEmpty() || des.value.isNullOrEmpty()) {
             isSaveTaskResult.value = false
             return
@@ -67,9 +68,11 @@ class AddNoteViewModel @Inject constructor(private val taskRepository: TaskRepos
                     frequency = obsFrequency,
                     remindDate = getRemindDay(),
                     remindInMillis = this@AddNoteViewModel.remindInMillis,
-                    remindTime = convertDateToDay(remindInMillis.toString())
+                    remindTime = convertDateToDay(remindInMillis.toString()),
+                    workerId = workName
                 )
             )
+            this@AddNoteViewModel.workName = workName
             isSaveTaskResult.value = true
         }
     }

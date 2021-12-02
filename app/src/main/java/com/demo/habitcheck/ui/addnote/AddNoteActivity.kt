@@ -3,6 +3,7 @@ package com.demo.habitcheck.ui.addnote
 import android.os.Bundle
 import android.util.Log
 import androidx.work.*
+import com.demo.habitcheck.R
 import com.demo.habitcheck.data.model.Task
 import com.demo.habitcheck.databinding.ActivityAddNoteBinding
 import com.demo.habitcheck.service.NotifyWorker
@@ -11,6 +12,7 @@ import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_ID
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_TITTLE
 import com.demo.habitcheck.service.NotifyWorker.Companion.NOTIFICATION_WORK
 import com.demo.habitcheck.utils.Coroutines
+import com.demo.habitcheck.utils.UtilExtensions.mySnackbar
 import com.demo.habitcheck.utils.UtilExtensions.myToast
 import com.demo.habitcheck.utils.UtilExtensions.updateDayUI
 import dagger.android.support.DaggerAppCompatActivity
@@ -67,16 +69,21 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
             isDone.observe(this@AddNoteActivity, {
                 if (it == true) {
+                    if (binding.edtDesc.text.isNullOrEmpty() || binding.edtTitle.text.isNullOrEmpty()) {
+                        mySnackbar(binding.root, resources.getString(R.string.form_empty))
+                        return@observe
+                    }
+                    val workName = viewModel.workName
                     if (isOneTime.value == true) {
-                        setupRemindOneTime()
+                        setupRemindOneTime(workName)
                     }
                     if (isEveryday.value == true) {
-                        setupRemindEveryDay()
+                        setupRemindEveryDay(workName)
                     }
                     if (isSomeDay.value == true) {
-                        setupRemindSomeDay()
+                        setupRemindSomeDay(workName)
                     }
-                    saveTask()
+                    saveTask(Calendar.getInstance().timeInMillis.toString())
                 }
             })
 
@@ -85,7 +92,7 @@ class AddNoteActivity : DaggerAppCompatActivity() {
                     myToast("Save task success")
                     finish()
                 } else {
-                    myToast("Title and des is not empty")
+                    mySnackbar(binding.root, resources.getString(R.string.form_empty))
                 }
             })
 
@@ -123,7 +130,7 @@ class AddNoteActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun setupRemindOneTime() {
+    private fun setupRemindOneTime(workName: String) {
         Log.d("--->", "setupRemindOneTime")
         val customCalendar = Calendar.getInstance()
         customCalendar.set(
@@ -150,15 +157,14 @@ class AddNoteActivity : DaggerAppCompatActivity() {
         // Setup worker
         val notificationWork = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
             .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
-
         val instanceWorkManager = WorkManager.getInstance(this)
         instanceWorkManager.beginUniqueWork(
-            NOTIFICATION_WORK,
-            ExistingWorkPolicy.REPLACE, notificationWork
+            workName,
+            ExistingWorkPolicy.KEEP, notificationWork
         ).enqueue()
     }
 
-    private fun setupRemindEveryDay() {
+    private fun setupRemindEveryDay(workName: String) {
         Log.d("--->", "setupRemindEveryDay")
         val customCalendar = Calendar.getInstance()
         customCalendar.set(
@@ -188,12 +194,12 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         val instanceWorkManager = WorkManager.getInstance(this)
         instanceWorkManager.enqueueUniquePeriodicWork(
-            NOTIFICATION_WORK,
-            ExistingPeriodicWorkPolicy.KEEP, request
+            workName,
+            ExistingPeriodicWorkPolicy.REPLACE, request
         )
     }
 
-    private fun setupRemindSomeDay() {
+    private fun setupRemindSomeDay(workName: String) {
         Log.d("--->", "setupRemindSomeDay")
         val customCalendar = Calendar.getInstance()
         customCalendar.set(
@@ -214,40 +220,40 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         if (viewModel.isSunSelected.value == true) {
             Log.d("--->", "setupRemind in sunday")
-            setUpRemindByDay(Calendar.SUNDAY, delay)
+            setUpRemindByDay(Calendar.SUNDAY, delay, workName)
         }
         if (viewModel.isMonSelected.value == true) {
             Log.d("--->", "setupRemind in monday")
-            setUpRemindByDay(Calendar.MONDAY, delay)
+            setUpRemindByDay(Calendar.MONDAY, delay, workName)
         }
 
         if (viewModel.isTueSelected.value == true) {
             Log.d("--->", "setupRemind in tuesday")
-            setUpRemindByDay(Calendar.TUESDAY, delay)
+            setUpRemindByDay(Calendar.TUESDAY, delay, workName)
         }
 
         if (viewModel.isWendSelected.value == true) {
             Log.d("--->", "setupRemind in wednesday")
-            setUpRemindByDay(Calendar.WEDNESDAY, delay)
+            setUpRemindByDay(Calendar.WEDNESDAY, delay, workName)
         }
 
         if (viewModel.isThursSelected.value == true) {
             Log.d("--->", "setupRemind in thursday")
-            setUpRemindByDay(Calendar.THURSDAY, delay)
+            setUpRemindByDay(Calendar.THURSDAY, delay, workName)
         }
 
         if (viewModel.isFriSelected.value == true) {
             Log.d("--->", "setupRemind in friday")
-            setUpRemindByDay(Calendar.FRIDAY, delay)
+            setUpRemindByDay(Calendar.FRIDAY, delay, workName)
         }
 
         if (viewModel.isSatSelected.value == true) {
             Log.d("--->", "setupRemind in saturday")
-            setUpRemindByDay(Calendar.SATURDAY, delay)
+            setUpRemindByDay(Calendar.SATURDAY, delay, workName)
         }
     }
 
-    private fun setUpRemindByDay(day: Int, delay: Long) {
+    private fun setUpRemindByDay(day: Int, delay: Long, workName: String) {
         val c = Calendar.getInstance()
         val dayOfWeek = c[Calendar.DAY_OF_WEEK]
         var dayGap = 0
@@ -276,7 +282,7 @@ class AddNoteActivity : DaggerAppCompatActivity() {
 
         val instanceWorkManager = WorkManager.getInstance(this)
         instanceWorkManager.enqueueUniquePeriodicWork(
-            NOTIFICATION_WORK,
+            workName,
             ExistingPeriodicWorkPolicy.KEEP, request
         )
     }

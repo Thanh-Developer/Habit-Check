@@ -26,6 +26,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.demo.habitcheck.MainActivity
 import com.demo.habitcheck.R
+import java.util.*
 
 class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
@@ -45,7 +46,12 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
         intent.flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra(NOTIFICATION_ID, id)
         val pendingIntent =
-            getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            getActivity(
+                applicationContext,
+                id,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
         val notificationManager =
             applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 

@@ -21,6 +21,9 @@ interface TaskDAO {
     @Query("SELECT * FROM task")
     fun getAllNotePaged(): PagingSource<Int, Task>
 
+    @Query("SELECT * FROM task WHERE progress < 100")
+    fun getAllNotePagedNotDone(): PagingSource<Int, Task>
+
     @Query("SELECT * FROM task WHERE id = :id")
     suspend fun getTaskById(id: Int): Task
 }

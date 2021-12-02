@@ -93,7 +93,8 @@ class EditTaskViewModel @Inject constructor(val taskRepository: TaskRepository) 
                     frequency = obsFrequency,
                     remindInMillis = this@EditTaskViewModel.remindInMillis,
                     remindTime = DateUtils.convertDateToDay(remindInMillis.toString()),
-                    id = task.value?.id
+                    id = task.value?.id,
+                    workerId = task.value?.workerId
                 )
             )
             isSaveTaskResult.value = true
